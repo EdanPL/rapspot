@@ -43,4 +43,4 @@ Le fichier `data.js` sera écrasé et mis à jour automatiquement avec de nouvea
 *Actuellement à la recherche d'un stage de 10 semaines et d'une alternance de 24 mois (dès septembre 2026) dans les secteurs de la tech, de la finance ou du luxe.*
 
 * **Contact** : edanoah24@gmail.com
-* **Portfolio GitHub** : `[Lien vers ton profil]`
+* **Portfolio GitHub** : https://github.com/EdanPL
