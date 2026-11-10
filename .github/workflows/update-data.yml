@@ -1,0 +1,40 @@
+name: Update Rapspot Data
+
+on:
+  schedule:
+    # S'exécute toutes les 2 heures pour garantir des tokens audio valides
+    - cron: '0 */2 * * *'
+  workflow_dispatch: 
+    # Permet aussi de lancer l'automatisation manuellement depuis l'interface GitHub
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupération du code (Checkout)
+        uses: actions/checkout@v4
+
+      - name: Configuration de Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Installation de la librairie requise
+        run: pip install requests
+
+      - name: Exécution du pipeline ETL (Scraper)
+        run: python scraper.py
+
+      - name: Commit et Déploiement automatique
+        run: |
+          # Configuration de l'identité du robot GitHub
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Ajout du fichier de données mis à jour
+          git add assets/js/data.js
+          
+          # Vérifie s'il y a eu des changements, puis commit et push en silence
+          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update : Rafraîchissement des tokens audio"
+          git push
