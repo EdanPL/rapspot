@@ -2,7 +2,7 @@
 
 Un jeu web interactif de blind-test musical dédié au rap français. Le but du jeu est simple : deviner le titre d'un morceau le plus rapidement possible grâce à des extraits audio de plus en plus longs (de 0.1s à 15s).
 
-**Jouez ici :** `[Remplace par ton lien edan.github.io/rapspot]`
+**Jouez ici :** https://edanpl.github.io/rapspot/
 
 ## Fonctionnalités Principales
 * **Système de progression audio** : 5 paliers d'écoute ultra-courts (0.1s, 0.5s, 2s, 8s, 15s) pour tester la rapidité des joueurs.
