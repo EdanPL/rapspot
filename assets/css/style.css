@@ -1,0 +1,380 @@
+:root {
+    --bg-main: #0a0c0b;
+    --bg-panel: #111413;
+    --text-main: #ffffff;
+    --text-dim: #737373;
+    
+    /* Couleurs de difficulté */
+    --c-easy: #00e676;
+    --c-medium: #ffeb3b;
+    --c-hard: #ff9800;
+    --c-expert: #f44336;
+    --c-impossible: #9c27b0;
+    
+    /* Couleur active dynamique (modifiée par JS) */
+    --theme-color: var(--c-easy); 
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    justify-content: center; /* Centre tout au milieu de l'écran */
+    height: 100vh;
+}
+
+.game-center {
+    width: 100%;
+    max-width: 650px; /* Largeur restreinte pour coller au vrai jeu */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 4rem;
+    position: relative;
+}
+
+.logo {
+    font-size: 3rem;
+    font-weight: 900;
+    font-style: italic;
+    color: #222725;
+    margin-bottom: 3rem;
+}
+
+/* NOUVEAU : Top Controls (Filtres, Streak & Difficulté) */
+.top-controls {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    gap: 15px;
+}
+
+.filters-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+/* --- CAROUSEL DE FILTRES --- */
+.filters-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px; /* Limite la largeur pour forcer le glissement */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden; /* Cache ce qui dépasse */
+    margin-bottom: 10px;
+    /* Effet de fondu ultra-pro sur les bords */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+.filter-pointer {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    margin-bottom: 5px;
+    z-index: 2;
+}
+
+.filters-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    font-weight: 700;
+    white-space: nowrap; /* Empêche le passage à la ligne */
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* Animation de glissement fluide */
+}
+
+.filter-text {
+    cursor: pointer;
+    transition: color 0.3s ease;
+    user-select: none;
+}
+
+.filter-text:hover, .filter-text.active {
+    color: var(--text-main);
+}
+
+.streak-badge {
+    background: #2a220a;
+    color: #ffeb3b;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.difficulty-row {
+    display: flex;
+    gap: 8px;
+    background: transparent;
+}
+
+.diff-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    background: rgba(255, 255, 255, 0.05);
+    cursor: default;
+    transition: 0.3s;
+}
+
+/* Couleurs spécifiques par difficulté quand active */
+.diff-btn.active[data-diff="easy"] { background: rgba(0, 230, 118, 0.15); color: var(--c-easy); box-shadow: 0 0 15px rgba(0, 230, 118, 0.2); }
+.diff-btn.active[data-diff="medium"] { background: rgba(255, 235, 59, 0.15); color: var(--c-medium); box-shadow: 0 0 15px rgba(255, 235, 59, 0.2); }
+.diff-btn.active[data-diff="hard"] { background: rgba(255, 152, 0, 0.15); color: var(--c-hard); box-shadow: 0 0 15px rgba(255, 152, 0, 0.2); }
+.diff-btn.active[data-diff="expert"] { background: rgba(244, 67, 54, 0.15); color: var(--c-expert); box-shadow: 0 0 15px rgba(244, 67, 54, 0.2); }
+.diff-btn.active[data-diff="impossible"] { background: rgba(156, 39, 176, 0.15); color: var(--c-impossible); box-shadow: 0 0 15px rgba(156, 39, 176, 0.2); }
+
+/* Progress Bar (Utilise la variable Theme) */
+.progress-container {
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #1a1d1c;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 20%;
+    background: var(--theme-color); /* Dynamique ! */
+    transition: width 0.3s ease, background-color 0.3s;
+}
+
+.progress-marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--bg-main);
+}
+
+.progress-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 0.8rem;
+    color: var(--theme-color); /* Dynamique ! */
+    font-weight: 700;
+}
+
+/* Play Section */
+.play-section {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3rem;
+    width: 100%; /* Prend toute la largeur pour garantir le centre absolu */
+}
+
+.play-btn {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: var(--theme-color); /* Dynamique ! */
+    border: none;
+    font-size: 2.5rem;
+    color: black;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    transition: transform 0.1s, background-color 0.3s;
+    z-index: 2; /* Garde le bouton au-dessus */
+}
+
+.play-btn:active {
+    transform: scale(0.95);
+}
+
+.time-display {
+    position: absolute;
+    left: calc(50% + 75px); /* Pousse le texte de 75px à droite du centre exact */
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--theme-color);
+}
+
+/* Search Area */
+.search-section {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.search-wrapper {
+    position: relative;
+    flex-grow: 1;
+}
+
+#search-input {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 8px;
+    background: #1a1d1c;
+    border: 1px solid #333;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.autocomplete-list {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    background: #2a2d2c;
+    border-radius: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 10px 0;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 10;
+}
+
+.autocomplete-list li {
+    padding: 12px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #333;
+}
+.autocomplete-list li:hover { background: #3a3d3c; }
+.autocomplete-title { font-weight: bold; }
+.autocomplete-artist { font-size: 0.8rem; color: var(--text-dim); }
+
+.skip-btn {
+    padding: 0 25px;
+    border-radius: 8px;
+    background: #1a1d1c;
+    border: 1px solid #333;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Screens & States */
+.hidden { display: none !important; }
+
+#result-screen { text-align: center; animation: fadeIn 0.5s; }
+#result-cover { width: 250px; height: 250px; border-radius: 8px; margin-bottom: 20px; }
+.result-badge { display: inline-block; padding: 8px 20px; border-radius: 20px; font-weight: 900; font-style: italic; transform: rotate(-5deg); margin-bottom: 20px; }
+.badge-win { border: 2px solid var(--theme-color); color: var(--theme-color); background: rgba(255,255,255,0.1); }
+.badge-lose { border: 2px solid #ff3b30; color: #ff3b30; background: rgba(255, 59, 48, 0.1); }
+
+.action-buttons { display: flex; justify-content: center; gap: 15px; margin-top: 30px; }
+.btn-primary { background: #2a2d2c; border: 1px solid #444; color: white; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: bold; }
+.btn-secondary { background: transparent; border: 1px solid #444; color: var(--text-dim); padding: 12px 20px; border-radius: 25px; cursor: pointer; }
+
+/* Confetti */
+.confetti { position: absolute; width: 8px; height: 8px; opacity: 0.7; }
+@keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); } 100% { transform: translateY(100vh) rotate(360deg); } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ========================================= */
+/* --- RESPONSIVE DESIGN (Mobiles) --- */
+/* ========================================= */
+@media (max-width: 600px) {
+    .game-center {
+        padding: 2rem 1.5rem 0; /* Réduit l'espace en haut et ajoute des marges latérales */
+    }
+
+    .logo {
+        font-size: 2.2rem; /* Logo plus petit */
+        margin-bottom: 2rem;
+    }
+
+    /* Catégories et Difficulté */
+    .filters-row {
+        gap: 12px;
+        font-size: 0.8rem;
+    }
+
+    .difficulty-row {
+        flex-wrap: wrap; /* Si ça manque de place, les boutons passent à la ligne */
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .diff-btn {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+    }
+
+    /* Le lecteur audio */
+    .play-section {
+        margin-bottom: 2rem;
+    }
+
+    .play-btn {
+        width: 90px; /* Bouton play plus compact */
+        height: 90px;
+        font-size: 2rem;
+    }
+
+    .time-display {
+        left: calc(50% + 60px); /* Rapproche le chrono du bouton play réduit */
+        font-size: 1.2rem;
+    }
+
+    /* Barre de recherche et Skip */
+    .search-section {
+        flex-direction: column; /* Empile la barre de recherche et le bouton Skip l'un sur l'autre */
+        width: 100%;
+    }
+
+    .search-wrapper {
+        width: 100%;
+    }
+
+    .skip-btn {
+        width: 100%; /* Le bouton Skip prend toute la largeur */
+        padding: 15px;
+    }
+
+    /* Écran de Résultat (Victoire/Défaite) */
+    #result-cover {
+        width: 180px; /* Pochette d'album plus petite */
+        height: 180px;
+        margin-bottom: 15px;
+    }
+
+    .action-buttons {
+        flex-direction: column; /* Empile les boutons "Next" et "Challenge" */
+        align-items: center;
+        gap: 10px;
+    }
+
+    .btn-primary, .btn-secondary {
+        width: 100%;
+        max-width: 250px; /* Uniformise la taille des boutons finaux */
+    }
+}

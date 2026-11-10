@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapspot - French Edition</title>
+    <!-- Mise à jour du chemin CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="confetti-container"></div>
+
+    <div class="app-container">
+        <!-- Zone de Jeu Centrale Unique -->
+        <main class="game-center">
+            <!-- Modification du nom du jeu -->
+            <h1 class="logo">rapspot</h1>
+
+            <div id="result-screen" class="hidden">
+                <img id="result-cover" src="" alt="Album Cover">
+                <div class="result-badge" id="result-badge">GUESSED IN 2S!</div>
+                <h2 id="result-title">Titre</h2>
+                <h3 id="result-artist">Artiste</h3>
+                <div class="action-buttons">
+                    <button class="btn-secondary">Challenge your friend</button>
+                    <button class="btn-primary" id="next-btn">Next</button>
+                </div>
+            </div>
+
+            <div id="active-game">
+                <!-- Menu Difficulté & Streak centré au dessus -->
+                <!-- Menu Difficulté & Streak centré au dessus -->
+                <div class="top-controls">
+                    <!-- NOUVEAU : Carousel de filtres -->
+                    <div class="filters-container">
+                        <div class="filter-pointer">▼</div>
+                        <div id="artist-filters" class="filters-row"></div>
+                    </div>
+                    
+                    <div class="streak-badge hidden" id="streak-container">
+                        🔥 <span id="streak-count">1</span>
+                    </div>
+                    
+                    <div class="difficulty-row">
+                        <div class="diff-btn active" data-diff="easy">Easy</div>
+                        <div class="diff-btn" data-diff="medium">Medium</div>
+                        <div class="diff-btn" data-diff="hard">Hard</div>
+                        <div class="diff-btn" data-diff="expert">Expert</div>
+                        <div class="diff-btn" data-diff="impossible">Impossible</div>
+                    </div>
+                </div>
+
+                <!-- Barre de progression -->
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                        <div class="progress-marker" style="left: 20%"></div>
+                        <div class="progress-marker" style="left: 40%"></div>
+                        <div class="progress-marker" style="left: 60%"></div>
+                        <div class="progress-marker" style="left: 80%"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span>0.1s</span><span>0.5s</span><span>2s</span><span>8s</span><span>15s</span>
+                    </div>
+                </div>
+
+                <!-- Bouton Play -->
+                <div class="play-section">
+                    <button id="play-btn" class="play-btn">▶</button>
+                    <span id="current-time-display" class="time-display">0.1s</span>
+                </div>
+
+                <!-- Recherche et Skip -->
+                <div class="search-section">
+                    <div class="search-wrapper">
+                        <input type="text" id="search-input" placeholder="Name that track">
+                        <ul id="autocomplete-list" class="autocomplete-list hidden"></ul>
+                    </div>
+                    <button id="skip-btn" class="skip-btn">⏭ Skip</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <audio id="audio-player"></audio>
+    <!-- Mise à jour du chemin JS -->
+    <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>
