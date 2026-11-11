@@ -4,7 +4,7 @@ import { DOM, updateGameUI, showWinScreen, showLossScreen, resetScreens, setDiff
 const intervals = [0.1, 0.5, 2.0, 8.0, 15.0];
 const difficulties = ['easy', 'medium', 'hard', 'expert', 'impossible'];
 
-let activePlaylist = [...songsDB]; 
+let activePlaylist = [...songsDB];
 let currentStep = 0;
 let currentSongIndex = 0;
 let streak = 0;
@@ -177,5 +177,5 @@ DOM.nextBtn.addEventListener('click', () => {
 
 // Lancement global
 buildFilters();
-shuffleArray(activePlaylist); // NOUVEAU : Mélange initial au lancement du jeu
+shuffleArray(activePlaylist);
 initGame();
